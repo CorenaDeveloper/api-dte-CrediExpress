@@ -11,6 +11,9 @@ import (
 	"github.com/MarlonG1/api-facturacion-sv/internal/infrastructure/api/routes"
 	"github.com/MarlonG1/api-facturacion-sv/pkg/shared/logs"
 	"github.com/gorilla/mux"
+
+	httpSwagger "github.com/swaggo/http-swagger"
+	_ "github.com/MarlonG1/api-facturacion-sv/docs" // docs generados por swag
 )
 
 type Server struct {
@@ -36,6 +39,12 @@ func (s *Server) ConfigureRoutes() {
 	s.configureGlobalMiddlewares()
 	s.configureGlobalOptions()
 
+	s.router.PathPrefix("/swagger/").Handler(httpSwagger.WrapHandler)
+
+	s.router.HandleFunc("/docs", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/swagger/index.html", http.StatusMovedPermanently)
+	}).Methods("GET")
+
 	// Configurar rutas públicas y protegidas
 	public := s.router.PathPrefix(s.publicPath).Subrouter()
 	protected := s.router.PathPrefix(s.privatePath).Subrouter()
@@ -48,6 +57,8 @@ func (s *Server) ConfigureRoutes() {
 	logs.Info("Routes configured successfully", map[string]interface{}{
 		"publicPath":    "/api/v1",
 		"protectedPath": "/api/v1",
+		"swaggerUI":     "/swagger/index.html",
+		"docsRedirect":  "/docs", 
 	})
 }
 
