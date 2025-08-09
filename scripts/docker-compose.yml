@@ -35,7 +35,7 @@ x-app-environment: &app-environment
   ADMIN_EMAIL: example@example.com
   MH_AMBIENT_CODE: "00"
   MH_MAX_BATCH_SIZE: 100
-  JWT_SECRET: TU-SECRET # Cambiar por tu cadena secreta
+  JWT_SECRET: s9T85u2W9[}g # Cambiar por tu cadena secreta
 
   LOG_LEVEL: debug
   LOG_PATH: /pkg/shared/logs/
