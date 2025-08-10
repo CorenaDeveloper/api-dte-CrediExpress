@@ -30,11 +30,12 @@ func NewAuthHandler(authUseCase *auth.AuthUseCase) *AuthHandler {
 // @Produce      json
 // @Security  	 BearerAuth
 // @Param auth body models.AuthCredentials true "Auth credentials"
-// @Success      200 {object} string "token"
+// @Success      200 {object} map[string]interface{}
+// @Success      201 {object} map[string]interface{}
 // @Failure      400 {object} response.APIError
 // @Failure      401 {object} response.APIError
 // @Failure      500 {object} response.APIError
-// @Router       /api/v1/auth/login [post]
+// @Router       /auth/login [post]
 func (h *AuthHandler) Login(w http.ResponseWriter, r *http.Request) {
 	// 1. Decodificar la solicitud
 	var req models.AuthCredentials

@@ -26,9 +26,9 @@ func NewTestHandler(testManager test_endpoint.TestManager) *TestHandler {
 // @Tags         Test
 // @Accept       json
 // @Produce      json
-// @Success      200 {object} models.TestResult
+// @Success      200 {object} map[string]interface{}
 // @Failure      500 {object} response.APIError
-// @Router       /api/v1/test [get]
+// @Router       /test [get]
 func (h *TestHandler) RunSystemTest(w http.ResponseWriter, r *http.Request) {
 	result, err := h.testManager.RunSystemTest()
 	if err != nil {

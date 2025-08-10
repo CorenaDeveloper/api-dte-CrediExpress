@@ -1,0 +1,290 @@
+basePath: /api/v1
+definitions:
+  github_com_MarlonG1_api-facturacion-sv_internal_domain_auth_models.AuthCredentials:
+    properties:
+      api_key:
+        type: string
+      api_secret:
+        type: string
+      credentials:
+        $ref: '#/definitions/github_com_MarlonG1_api-facturacion-sv_internal_domain_auth_models.HaciendaCredentials'
+    type: object
+  github_com_MarlonG1_api-facturacion-sv_internal_domain_auth_models.HaciendaCredentials:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  github_com_MarlonG1_api-facturacion-sv_internal_domain_core_user.Address:
+    properties:
+      complement:
+        type: string
+      department:
+        type: string
+      municipality:
+        type: string
+    type: object
+  github_com_MarlonG1_api-facturacion-sv_internal_domain_core_user.BranchOffice:
+    properties:
+      address:
+        $ref: '#/definitions/github_com_MarlonG1_api-facturacion-sv_internal_domain_core_user.Address'
+      api_key:
+        type: string
+      api_secret:
+        type: string
+      email:
+        type: string
+      establishment_code:
+        type: string
+      establishment_code_mh:
+        type: string
+      establishment_type:
+        type: string
+      is_active:
+        type: boolean
+      phone:
+        type: string
+      pos_code:
+        type: string
+      pos_code_mh:
+        type: string
+      user:
+        $ref: '#/definitions/github_com_MarlonG1_api-facturacion-sv_internal_domain_core_user.User'
+    type: object
+  github_com_MarlonG1_api-facturacion-sv_internal_domain_core_user.ListBranchesResponse:
+    properties:
+      api_key:
+        type: string
+      api_secret:
+        type: string
+      branch_number:
+        type: integer
+      establishment_code:
+        type: string
+      establishment_type:
+        type: string
+    type: object
+  github_com_MarlonG1_api-facturacion-sv_internal_domain_core_user.User:
+    properties:
+      auth_type:
+        type: string
+      branch_offices:
+        description: Relationships
+        items:
+          $ref: '#/definitions/github_com_MarlonG1_api-facturacion-sv_internal_domain_core_user.BranchOffice'
+        type: array
+      business_name:
+        type: string
+      commercial_name:
+        type: string
+      economic_activity:
+        type: string
+      economic_activity_desc:
+        type: string
+      email:
+        type: string
+      nit:
+        type: string
+      nrc:
+        type: string
+      password_pri:
+        type: string
+      phone:
+        type: string
+      token_lifetime:
+        type: integer
+      year_in_dte:
+        type: boolean
+    type: object
+  github_com_MarlonG1_api-facturacion-sv_internal_infrastructure_api_response.APIError:
+    properties:
+      code:
+        type: string
+      details:
+        items:
+          type: string
+        type: array
+      message:
+        type: string
+    type: object
+host: 185.222.241.94:7319
+info:
+  contact:
+    email: soporte@empresa.com
+    name: Soporte API DTE
+    url: https://github.com/CorenaDeveloper/api-dte-CrediExpress
+  description: API para la gestión de Documentos Tributarios Electrónicos (DTE) que
+    cumple con los requisitos establecidos por la autoridad fiscal de El Salvador.
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  termsOfService: http://swagger.io/terms/
+  title: API Facturación El Salvador
+  version: "1.0"
+paths:
+  /api/v1/auth/register:
+    post:
+      consumes:
+      - application/json
+      description: Register a new user
+      parameters:
+      - description: User data
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_MarlonG1_api-facturacion-sv_internal_domain_core_user.User'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            items:
+              $ref: '#/definitions/github_com_MarlonG1_api-facturacion-sv_internal_domain_core_user.ListBranchesResponse'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_MarlonG1_api-facturacion-sv_internal_infrastructure_api_response.APIError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_MarlonG1_api-facturacion-sv_internal_infrastructure_api_response.APIError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_MarlonG1_api-facturacion-sv_internal_infrastructure_api_response.APIError'
+      summary: Register
+      tags:
+      - Auth
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Login with API Key, API Secret and Hacienda Credentials
+      parameters:
+      - description: Auth credentials
+        in: body
+        name: auth
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_MarlonG1_api-facturacion-sv_internal_domain_auth_models.AuthCredentials'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "201":
+          description: Created
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_MarlonG1_api-facturacion-sv_internal_infrastructure_api_response.APIError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_MarlonG1_api-facturacion-sv_internal_infrastructure_api_response.APIError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_MarlonG1_api-facturacion-sv_internal_infrastructure_api_response.APIError'
+      security:
+      - BearerAuth: []
+      summary: Login
+      tags:
+      - Auth
+  /health:
+    get:
+      consumes:
+      - application/json
+      description: Check the health of all core service
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_MarlonG1_api-facturacion-sv_internal_infrastructure_api_response.APIError'
+      summary: Health Check
+      tags:
+      - Health
+  /metrics:
+    get:
+      consumes:
+      - application/json
+      description: Get metrics for a specific endpoint
+      parameters:
+      - description: Token JWT with Format 'Bearer {token}'
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Endpoint to filter metrics
+        in: query
+        name: endpoint
+        type: string
+      - description: HTTP method to filter metrics
+        in: query
+        name: method
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_MarlonG1_api-facturacion-sv_internal_infrastructure_api_response.APIError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_MarlonG1_api-facturacion-sv_internal_infrastructure_api_response.APIError'
+      security:
+      - BearerAuth: []
+      summary: Get endpoint metrics
+      tags:
+      - Metrics
+  /test:
+    get:
+      consumes:
+      - application/json
+      description: Run system test
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_MarlonG1_api-facturacion-sv_internal_infrastructure_api_response.APIError'
+      summary: Run system test
+      tags:
+      - Test
+securityDefinitions:
+  BearerAuth:
+    description: Type "Bearer" followed by a space and JWT token.
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

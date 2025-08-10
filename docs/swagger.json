@@ -1,0 +1,439 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "API para la gestión de Documentos Tributarios Electrónicos (DTE) que cumple con los requisitos establecidos por la autoridad fiscal de El Salvador.",
+        "title": "API Facturación El Salvador",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "name": "Soporte API DTE",
+            "url": "https://github.com/CorenaDeveloper/api-dte-CrediExpress",
+            "email": "soporte@empresa.com"
+        },
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        },
+        "version": "1.0"
+    },
+    "host": "185.222.241.94:7319",
+    "basePath": "/api/v1",
+    "paths": {
+        "/api/v1/auth/register": {
+            "post": {
+                "description": "Register a new user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Register",
+                "parameters": [
+                    {
+                        "description": "User data",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_MarlonG1_api-facturacion-sv_internal_domain_core_user.User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/github_com_MarlonG1_api-facturacion-sv_internal_domain_core_user.ListBranchesResponse"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_MarlonG1_api-facturacion-sv_internal_infrastructure_api_response.APIError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_MarlonG1_api-facturacion-sv_internal_infrastructure_api_response.APIError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_MarlonG1_api-facturacion-sv_internal_infrastructure_api_response.APIError"
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/login": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Login with API Key, API Secret and Hacienda Credentials",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Login",
+                "parameters": [
+                    {
+                        "description": "Auth credentials",
+                        "name": "auth",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_MarlonG1_api-facturacion-sv_internal_domain_auth_models.AuthCredentials"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_MarlonG1_api-facturacion-sv_internal_infrastructure_api_response.APIError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_MarlonG1_api-facturacion-sv_internal_infrastructure_api_response.APIError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_MarlonG1_api-facturacion-sv_internal_infrastructure_api_response.APIError"
+                        }
+                    }
+                }
+            }
+        },
+        "/health": {
+            "get": {
+                "description": "Check the health of all core service",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Health"
+                ],
+                "summary": "Health Check",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_MarlonG1_api-facturacion-sv_internal_infrastructure_api_response.APIError"
+                        }
+                    }
+                }
+            }
+        },
+        "/metrics": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get metrics for a specific endpoint",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Metrics"
+                ],
+                "summary": "Get endpoint metrics",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Token JWT with Format 'Bearer {token}'",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Endpoint to filter metrics",
+                        "name": "endpoint",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "HTTP method to filter metrics",
+                        "name": "method",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_MarlonG1_api-facturacion-sv_internal_infrastructure_api_response.APIError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_MarlonG1_api-facturacion-sv_internal_infrastructure_api_response.APIError"
+                        }
+                    }
+                }
+            }
+        },
+        "/test": {
+            "get": {
+                "description": "Run system test",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Test"
+                ],
+                "summary": "Run system test",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_MarlonG1_api-facturacion-sv_internal_infrastructure_api_response.APIError"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "github_com_MarlonG1_api-facturacion-sv_internal_domain_auth_models.AuthCredentials": {
+            "type": "object",
+            "properties": {
+                "api_key": {
+                    "type": "string"
+                },
+                "api_secret": {
+                    "type": "string"
+                },
+                "credentials": {
+                    "$ref": "#/definitions/github_com_MarlonG1_api-facturacion-sv_internal_domain_auth_models.HaciendaCredentials"
+                }
+            }
+        },
+        "github_com_MarlonG1_api-facturacion-sv_internal_domain_auth_models.HaciendaCredentials": {
+            "type": "object",
+            "properties": {
+                "password": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_MarlonG1_api-facturacion-sv_internal_domain_core_user.Address": {
+            "type": "object",
+            "properties": {
+                "complement": {
+                    "type": "string"
+                },
+                "department": {
+                    "type": "string"
+                },
+                "municipality": {
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_MarlonG1_api-facturacion-sv_internal_domain_core_user.BranchOffice": {
+            "type": "object",
+            "properties": {
+                "address": {
+                    "$ref": "#/definitions/github_com_MarlonG1_api-facturacion-sv_internal_domain_core_user.Address"
+                },
+                "api_key": {
+                    "type": "string"
+                },
+                "api_secret": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "establishment_code": {
+                    "type": "string"
+                },
+                "establishment_code_mh": {
+                    "type": "string"
+                },
+                "establishment_type": {
+                    "type": "string"
+                },
+                "is_active": {
+                    "type": "boolean"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "pos_code": {
+                    "type": "string"
+                },
+                "pos_code_mh": {
+                    "type": "string"
+                },
+                "user": {
+                    "$ref": "#/definitions/github_com_MarlonG1_api-facturacion-sv_internal_domain_core_user.User"
+                }
+            }
+        },
+        "github_com_MarlonG1_api-facturacion-sv_internal_domain_core_user.ListBranchesResponse": {
+            "type": "object",
+            "properties": {
+                "api_key": {
+                    "type": "string"
+                },
+                "api_secret": {
+                    "type": "string"
+                },
+                "branch_number": {
+                    "type": "integer"
+                },
+                "establishment_code": {
+                    "type": "string"
+                },
+                "establishment_type": {
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_MarlonG1_api-facturacion-sv_internal_domain_core_user.User": {
+            "type": "object",
+            "properties": {
+                "auth_type": {
+                    "type": "string"
+                },
+                "branch_offices": {
+                    "description": "Relationships",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/github_com_MarlonG1_api-facturacion-sv_internal_domain_core_user.BranchOffice"
+                    }
+                },
+                "business_name": {
+                    "type": "string"
+                },
+                "commercial_name": {
+                    "type": "string"
+                },
+                "economic_activity": {
+                    "type": "string"
+                },
+                "economic_activity_desc": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "nit": {
+                    "type": "string"
+                },
+                "nrc": {
+                    "type": "string"
+                },
+                "password_pri": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "token_lifetime": {
+                    "type": "integer"
+                },
+                "year_in_dte": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "github_com_MarlonG1_api-facturacion-sv_internal_infrastructure_api_response.APIError": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "details": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "BearerAuth": {
+            "description": "Type \"Bearer\" followed by a space and JWT token.",
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    }
+}

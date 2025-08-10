@@ -31,10 +31,10 @@ func NewMetricsHandler(metricsManager metrics.MetricsManager) *MetricsHandler {
 // @Param Authorization header string true "Token JWT with Format 'Bearer {token}'"
 // @Param endpoint query string false "Endpoint to filter metrics"
 // @Param method query string false "HTTP method to filter metrics"
-// @Success      200 {object} models.EndpointMetrics
+// @Success      200 {object} map[string]interface{}
 // @Failure      400 {object} response.APIError
 // @Failure      500 {object} response.APIError
-// @Router       /api/v1/metrics [get]
+// @Router       /metrics [get]
 func (h *MetricsHandler) GetEndpointMetrics(w http.ResponseWriter, r *http.Request) {
 	claims := r.Context().Value("claims").(*models.AuthClaims)
 

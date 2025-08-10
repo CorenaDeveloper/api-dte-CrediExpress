@@ -26,9 +26,9 @@ func NewHealthHandler(checkHealthUseCase health.HealthManager) *HealthHandler {
 // @Tags         Health
 // @Accept       json
 // @Produce      json
-// @Success      200 {object} models.HealthStatus
+// @Success      200 {object} map[string]interface{}
 // @Failure      500 {object} response.APIError
-// @Router       /api/v1/health [get]
+// @Router       /health [get]
 func (h *HealthHandler) CheckHealth(w http.ResponseWriter, r *http.Request) {
 	logs.Info("Starting health check")
 	defer logs.Info("Health check finished")
