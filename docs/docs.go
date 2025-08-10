@@ -258,7 +258,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Crea un nuevo CCF electrónico DTE tipo 03",
+                "description": "{{INVOICE_DESCRIPTION}}",
                 "consumes": [
                     "application/json"
                 ],
@@ -278,13 +278,12 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "description": "Datos del CCF",
+                        "description": "Datos de CCF",
                         "name": "ccf",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "object"
                         }
                     }
                 ],
@@ -324,7 +323,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Crea una nueva Nota de Crédito electrónica DTE tipo 05",
+                "description": "{{INVOICE_DESCRIPTION}}",
                 "consumes": [
                     "application/json"
                 ],
@@ -349,8 +348,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "object"
                         }
                     }
                 ],
@@ -522,7 +520,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Crea un nuevo Comprobante de Retención electrónico DTE tipo 06",
+                "description": "{{INVOICE_DESCRIPTION}}",
                 "consumes": [
                     "application/json"
                 ],
@@ -547,8 +545,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "type": "object"
                         }
                     }
                 ],

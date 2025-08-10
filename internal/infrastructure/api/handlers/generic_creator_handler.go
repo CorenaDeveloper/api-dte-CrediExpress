@@ -1,4 +1,4 @@
-package handlers
+﻿package handlers
 
 import (
 	"context"
@@ -36,8 +36,8 @@ func (h *GenericCreatorDTEHandler) RegisterDocument(path string, config helpers.
 }
 
 // CreateInvoice godoc
-// @Summary Crear factura electrónica
-// @Description Crea una nueva factura electrónica DTE tipo 01
+// @Summary Crear factura electrÃ³nica
+// @Description Crea una nueva factura electrÃ³nica DTE tipo 01
 // @Tags DTE
 // @Accept json
 // @Produce json
@@ -54,14 +54,24 @@ func (h *GenericCreatorDTEHandler) CreateInvoice(w http.ResponseWriter, r *http.
 }
 
 // CreateCCF godoc
-// @Summary Crear Comprobante de Crédito Fiscal
-// @Description Crea un nuevo CCF electrónico DTE tipo 03
+// @Summary Crear Comprobante de CrÃ©dito Fiscal
+// @Description // @Description Este endpoint permite crear y emitir una Factura ElectrÃ³nica.
+// @Description 
+// @Description ## Ejemplo de Solicitud
+// @Description ```json
+// @Description 
+// @Description ```
+// @Description ## Ejemplo de Respuesta
+// @Description ```json
+// @Description 
+// @Description ```
+// @Description Para ver ejemplos completos, consulta: /jsonExamples/
 // @Tags DTE
 // @Accept json
 // @Produce json
 // @Security BearerAuth
 // @Param Authorization header string true "Bearer token"
-// @Param ccf body map[string]interface{} true "Datos del CCF"
+// @Param ccf body object true "Datos de CCF"
 // @Success 201 {object} map[string]interface{}
 // @Failure 400 {object} response.APIError
 // @Failure 401 {object} response.APIError
@@ -72,14 +82,24 @@ func (h *GenericCreatorDTEHandler) CreateCCF(w http.ResponseWriter, r *http.Requ
 }
 
 // CreateCreditNote godoc
-// @Summary Crear Nota de Crédito
-// @Description Crea una nueva Nota de Crédito electrónica DTE tipo 05
+// @Summary Crear Nota de CrÃ©dito
+// @Description // @Description Este endpoint permite crear y emitir una Factura ElectrÃ³nica.
+// @Description 
+// @Description ## Ejemplo de Solicitud
+// @Description ```json
+// @Description 
+// @Description ```
+// @Description ## Ejemplo de Respuesta
+// @Description ```json
+// @Description 
+// @Description ```
+// @Description Para ver ejemplos completos, consulta: /jsonExamples/
 // @Tags DTE
 // @Accept json
 // @Produce json
 // @Security BearerAuth
 // @Param Authorization header string true "Bearer token"
-// @Param creditnote body map[string]interface{} true "Datos de la nota de crédito"
+// @Param creditnote body object true "Datos de la nota de crÃ©dito"
 // @Success 201 {object} map[string]interface{}
 // @Failure 400 {object} response.APIError
 // @Failure 401 {object} response.APIError
@@ -90,14 +110,24 @@ func (h *GenericCreatorDTEHandler) CreateCreditNote(w http.ResponseWriter, r *ht
 }
 
 // CreateRetention godoc
-// @Summary Crear Comprobante de Retención
-// @Description Crea un nuevo Comprobante de Retención electrónico DTE tipo 06
+// @Summary Crear Comprobante de RetenciÃ³n
+// @Description // @Description Este endpoint permite crear y emitir una Factura ElectrÃ³nica.
+// @Description 
+// @Description ## Ejemplo de Solicitud
+// @Description ```json
+// @Description 
+// @Description ```
+// @Description ## Ejemplo de Respuesta
+// @Description ```json
+// @Description 
+// @Description ```
+// @Description Para ver ejemplos completos, consulta: /jsonExamples/
 // @Tags DTE
 // @Accept json
 // @Produce json
 // @Security BearerAuth
 // @Param Authorization header string true "Bearer token"
-// @Param retention body map[string]interface{} true "Datos del comprobante de retención"
+// @Param retention body object true "Datos del comprobante de retenciÃ³n"
 // @Success 201 {object} map[string]interface{}
 // @Failure 400 {object} response.APIError
 // @Failure 401 {object} response.APIError
@@ -107,9 +137,9 @@ func (h *GenericCreatorDTEHandler) CreateRetention(w http.ResponseWriter, r *htt
 	h.HandleCreate(w, r)
 }
 
-// HandleCreate maneja la creación de cualquier tipo de documento
+// HandleCreate maneja la creaciÃ³n de cualquier tipo de documento
 func (h *GenericCreatorDTEHandler) HandleCreate(w http.ResponseWriter, r *http.Request) {
-	// 1. Determinar qué tipo de documento se está creando basado en la ruta
+	// 1. Determinar quÃ© tipo de documento se estÃ¡ creando basado en la ruta
 	path := r.URL.Path
 	config, err := h.getDocumentTypeFromPath(path)
 	if err != nil {
@@ -128,7 +158,7 @@ func (h *GenericCreatorDTEHandler) HandleCreate(w http.ResponseWriter, r *http.R
 		return
 	}
 
-	// 4. Invocar el caso de uso genérico
+	// 4. Invocar el caso de uso genÃ©rico
 	resp, options, err := config.UseCase.Create(r.Context(), request)
 	if err != nil {
 		logs.Warn("Error processing document because", map[string]interface{}{"error": err.Error()})
@@ -147,7 +177,7 @@ func (h *GenericCreatorDTEHandler) HandleCreate(w http.ResponseWriter, r *http.R
 		}
 	}
 
-	// 6. Responder con éxito
+	// 6. Responder con Ã©xito
 	h.respWriter.Success(w, http.StatusCreated, resp, options)
 }
 
@@ -164,18 +194,18 @@ func (h *GenericCreatorDTEHandler) handleErrorForContingency(ctx context.Context
 		return err
 	}
 
-	// 2. Actualizar la identificación de contingencia en el JSON del DTE
+	// 2. Actualizar la identificaciÃ³n de contingencia en el JSON del DTE
 	updatedDTE, err := utils.UpdateContingencyIdentification(dte, contiType, reason)
 	if err != nil {
 		return err
 	}
 
-	// 3. Responder con la respuesta de la creación del DTE
+	// 3. Responder con la respuesta de la creaciÃ³n del DTE
 	h.respWriter.Success(w, http.StatusCreated, updatedDTE, options)
 	return nil
 }
 
-// GetDocumentConfigs devuelve la configuración de documentos registrada
+// GetDocumentConfigs devuelve la configuraciÃ³n de documentos registrada
 func (h *GenericCreatorDTEHandler) GetDocumentConfigs() map[string]helpers.DocumentConfig {
 	return h.documentConfigs
 }
@@ -190,3 +220,6 @@ func (h *GenericCreatorDTEHandler) getDocumentTypeFromPath(path string) (helpers
 
 	return helpers.DocumentConfig{}, errors.New("error was found in the path")
 }
+
+
+

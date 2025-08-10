@@ -1,0 +1,57 @@
+{
+  "items": [
+    {
+      "type": 2,
+      "description": "Mantenimiento de computadora",
+      "quantity": 1,
+      "unit_measure": 59,
+      "unit_price": 200.00,
+      "taxed_sale": 200.00,
+      "exempt_sale": 0,
+      "non_subject_sale": 0,
+      "taxes": ["20"]
+    }
+  ],
+  "receiver": {
+    "nrc": "3625871",
+    "nit": "051283596",
+    "name": "Mauricio Antonio Corena Gomez",
+    "commercial_name": "Contabvs",
+    "activity_code": "4259",
+    "activity_description": "ACTIVIDAD ECONOMICA DE EJEMPLO",
+    "address": {
+      "department": "06",
+      "municipality": "22",
+      "complement": "Dirección de Prueba 1, N° 1234"
+    },
+    "phone": "61032136",
+    "email": "corenadeveloper@gmail.com"
+  },
+  "summary": {
+    "operation_condition": 1,
+    "total_taxed": 200.00,
+    "total_exempt": 0,
+    "total_non_taxed": 0,
+    "total_non_subject": 0,
+    "sub_total_sales": 200.00,
+    "sub_total": 200.00,
+    "iva_perception": 0,
+    "iva_retention": 0,
+    "income_retention": 0,
+    "total_operation": 260.00,
+    "total_to_pay": 260.00,
+    "taxes": [
+      {
+        "code": "20",
+        "description": "IVA 13%",
+        "value": 26.00
+      }
+    ],
+    "payment_types": [
+      {
+        "code": "02",
+        "amount": 260.00
+      }
+    ]
+  }
+}

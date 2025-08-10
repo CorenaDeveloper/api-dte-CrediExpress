@@ -324,19 +324,18 @@ paths:
     post:
       consumes:
       - application/json
-      description: Crea un nuevo CCF electrónico DTE tipo 03
+      description: '{{INVOICE_DESCRIPTION}}'
       parameters:
       - description: Bearer token
         in: header
         name: Authorization
         required: true
         type: string
-      - description: Datos del CCF
+      - description: Datos de CCF
         in: body
         name: ccf
         required: true
         schema:
-          additionalProperties: true
           type: object
       produces:
       - application/json
@@ -367,7 +366,7 @@ paths:
     post:
       consumes:
       - application/json
-      description: Crea una nueva Nota de Crédito electrónica DTE tipo 05
+      description: '{{INVOICE_DESCRIPTION}}'
       parameters:
       - description: Bearer token
         in: header
@@ -379,7 +378,6 @@ paths:
         name: creditnote
         required: true
         schema:
-          additionalProperties: true
           type: object
       produces:
       - application/json
@@ -496,7 +494,7 @@ paths:
     post:
       consumes:
       - application/json
-      description: Crea un nuevo Comprobante de Retención electrónico DTE tipo 06
+      description: '{{INVOICE_DESCRIPTION}}'
       parameters:
       - description: Bearer token
         in: header
@@ -508,7 +506,6 @@ paths:
         name: retention
         required: true
         schema:
-          additionalProperties: true
           type: object
       produces:
       - application/json
