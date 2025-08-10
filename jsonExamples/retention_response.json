@@ -1,0 +1,89 @@
+{
+    "success": true,
+    "reception_stamp": "202534D1BECF3321453...",
+    "qr_link": "https://admin.factura.gob.sv/consultaPublica?ambiente=00&codGen=5367521F-DD80-4B6B-9...&fechaEmi=FECHA-DE-EMISION",
+    "data":{
+  "identificacion": {
+    "version": 1,
+    "ambiente": "00",
+    "tipoDte": "07",
+    "numeroControl": "DTE-07-C0020000-000000000000001",
+    "codigoGeneracion": "EB399033-E184-41D2-B01...",
+    "tipoModelo": 1,
+    "tipoOperacion": 1,
+    "tipoContingencia": null,
+    "motivoContin": null,
+    "fecEmi": "2025-04-16",
+    "horEmi": "20:40:56",
+    "tipoMoneda": "USD"
+  },
+  "resumen": {
+    "totalSujetoRetencion": 80097.35,
+    "totalIVAretenido": 800.97,
+    "totalIVAretenidoLetras": "OCHOCIENTOS 97/100"
+  },
+  "emisor": {
+    "nit": "00000000000000",
+    "nrc": "0000000",
+    "nombre": "EMPRESA DE PRUEBAS SA DE CV 2",
+    "codActividad": "00000",
+    "descActividad": "Venta al por mayor de otros productos",
+    "tipoEstablecimiento": "01",
+    "direccion": {
+      "departamento": "06",
+      "municipio": "20",
+      "complemento": "BOULEVARD SANTA ELENA SUR, SANTA TECLA"
+    },
+    "telefono": "21212828",
+    "correo": "facturacion@empresa.com.sv",
+    "nombreComercial": "JEMEPLO",
+    "codigoMH": null,
+    "codigo": "C002",
+    "puntoVentaMH": null,
+    "puntoVenta": null
+  },
+  "receptor": {
+    "nombre": "EJEMPLO S.A DE C.V",
+    "tipoDocumento": "36",
+    "numDocumento": "00000000000000",
+    "nrc": "000000",
+    "codActividad": "00000",
+    "descActividad": "ACTIVIDADES JURÍDICAS Y CONTABLES",
+    "direccion": {
+      "departamento": "06",
+      "municipio": "20",
+      "complemento": "Dirección de Prueba 1, N° 1234"
+    },
+    "telefono": "21212121",
+    "correo": "cliente@gmail.com",
+    "nombreComercial": "EJEMPLO"
+  },
+  "cuerpoDocumento": [
+    {
+      "numItem": 1,
+      "tipoDte": "03",
+      "tipoDoc": 2,
+      "numDocumento": "1EEAB582-AA75-4D9C-AFF...",
+      "fechaEmision": "2025-04-11",
+      "montoSujetoGrav": 80097.35,
+      "codigoRetencionMH": "22",
+      "ivaRetenido": 800.97,
+      "descripcion": "Compra de equipos informáticos"
+    }
+  ],
+  "extension": {
+    "nombEntrega": "Juan Pérez",
+    "docuEntrega": "06141809931020",
+    "nombRecibe": "María López",
+    "docuRecibe": "06142509882011",
+    "observaciones": "Entrega en oficina central"
+  },
+        "apendice": [
+            {
+                "campo": "Datos del documento",
+                "etiqueta": "Sello de recepción",
+                "valor": "202534D1BECF33214..."
+            }
+        ]
+  }
+}

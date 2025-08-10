@@ -1,107 +1,114 @@
+package main
 
-# Función para procesar JSON y generar descripción
-function Process-Json {
-    param(
-        [string]$JsonFile,
-        [string]$Title
-    )
-    
-    if (Test-Path $JsonFile) {
-        $content = Get-Content $JsonFile -Raw
-        return @"
-## $Title
-``````json
-$content
-``````
+import (
+	"fmt"
+	"io/ioutil"
+	"os"
+	"strings"
+)
 
-"@
-    } else {
-        return "// Error: No se encontró el archivo $JsonFile`n"
-    }
+func processJSON(jsonFile, title string) string {
+	if _, err := os.Stat(jsonFile); os.IsNotExist(err) {
+		return fmt.Sprintf("Error: No se encontró el archivo %s\n", jsonFile)
+	}
+
+	content, err := ioutil.ReadFile(jsonFile)
+	if err != nil {
+		return fmt.Sprintf("Error leyendo %s: %v\n", jsonFile, err)
+	}
+
+	return fmt.Sprintf(`## %s
+`+"```json\n%s\n```\n\n", title, string(content))
 }
 
-# Función para generar descripción completa
-function Generate-Description {
-    param(
-        [string]$RequestFile,
-        [string]$ResponseFile,
-        [string]$Description
-    )
-    
-    $result = "$Description`n`n"
-    $result += Process-Json $RequestFile "Ejemplo de Solicitud"
-    $result += Process-Json $ResponseFile "Ejemplo de Respuesta"
-    $result += "Para ver ejemplos completos, consulta: /jsonExamples/"
-    
-    return $result
+func generateDescription(requestFile, responseFile, description string) string {
+	result := description + "\n\n"
+	result += processJSON(requestFile, "Ejemplo de Solicitud")
+	result += processJSON(responseFile, "Ejemplo de Respuesta")
+	result += "Para ver ejemplos completos, consulta: /jsonExamples/"
+	return result
 }
 
-# Función para reemplazar en archivo
-function Replace-InFile {
-    param(
-        [string]$FilePath,
-        [string]$Placeholder,
-        [string]$NewContent
-    )
-    
-    if (Test-Path $FilePath) {
-        # Leer contenido del archivo
-        $content = Get-Content $FilePath -Raw
-        
-        # Preparar el contenido para Swagger (agregar // @Description a cada línea)
-        $lines = $NewContent -split "`n"
-        $swaggerContent = ""
-        foreach ($line in $lines) {
-            if ($line.Trim() -ne "") {
-                $swaggerContent += "// @Description $line`n"
-            } else {
-                $swaggerContent += "// @Description `n"
-            }
-        }
-        
-        # Reemplazar placeholder
-        $content = $content -replace "\{\{$Placeholder\}\}", $swaggerContent.TrimEnd()
-        
-        # Escribir archivo actualizado
-        Set-Content -Path $FilePath -Value $content -Encoding UTF8
-        
-        Write-Host "✅ Reemplazado $Placeholder en $FilePath" -ForegroundColor Green
-    } else {
-        Write-Host "❌ No se encontró el archivo $FilePath" -ForegroundColor Red
-    }
+func replaceInFile(filePath, placeholder, newContent string) error {
+	content, err := ioutil.ReadFile(filePath)
+	if err != nil {
+		return fmt.Errorf("error leyendo archivo: %v", err)
+	}
+
+	// Preparar contenido para Swagger
+	lines := strings.Split(newContent, "\n")
+	var swaggerLines []string
+	for _, line := range lines {
+		if strings.TrimSpace(line) != "" {
+			swaggerLines = append(swaggerLines, "// @Description "+line)
+		} else {
+			swaggerLines = append(swaggerLines, "// @Description ")
+		}
+	}
+	swaggerContent := strings.Join(swaggerLines, "\n")
+
+	// Reemplazar placeholder
+	newFileContent := strings.ReplaceAll(string(content), "{{"+placeholder+"}}", swaggerContent)
+
+	// Escribir archivo
+	err = ioutil.WriteFile(filePath, []byte(newFileContent), 0644)
+	if err != nil {
+		return fmt.Errorf("error escribiendo archivo: %v", err)
+	}
+
+	fmt.Printf("✅ Reemplazado %s\n", placeholder)
+	return nil
 }
 
-# Archivo de destino
-$HandlerFile = "internal\infrastructure\api\handlers\generic_creator_handler.go"
+func main() {
+	handlerFile := "internal/infrastructure/api/handlers/generic_creator_handler.go"
 
-Write-Host "🔄 Iniciando actualización de descripciones Swagger..." -ForegroundColor Yellow
+	fmt.Println("🔄 Iniciando actualización de descripciones Swagger...")
 
-# Verificar que existe el archivo de destino
-if (-not (Test-Path $HandlerFile)) {
-    Write-Host "❌ Error: No se encontró $HandlerFile" -ForegroundColor Red
-    exit 1
+	// Verificar que existe el archivo
+	if _, err := os.Stat(handlerFile); os.IsNotExist(err) {
+		fmt.Printf("❌ Error: No se encontró %s\n", handlerFile)
+		os.Exit(1)
+	}
+
+	// Generar descripciones
+	endpoints := map[string]struct {
+		requestFile, responseFile, description string
+	}{
+		"CCF_DESCRIPTION": {
+			"jsonExamples/ccf_request.json",
+			"jsonExamples/ccf_response.json",
+			"Este endpoint permite crear y emitir un Comprobante de Crédito Fiscal (CCF) electrónico.",
+		},
+		"INVOICE_DESCRIPTION": {
+			"jsonExamples/invoice_request.json",
+			"jsonExamples/invoice_response.json",
+			"Este endpoint permite crear y emitir una Factura Electrónica.",
+		},
+		"CREDITNOTE_DESCRIPTION": {
+			"jsonExamples/creditnote_request.json",
+			"jsonExamples/creditnote_response.json",
+			"Este endpoint permite crear y emitir una Nota de Crédito electrónica.",
+		},
+		"RETENTION_DESCRIPTION": {
+			"jsonExamples/retention_request.json",
+			"jsonExamples/retention_response.json",
+			"Este endpoint permite crear y emitir un Comprobante de Retención electrónico.",
+		},
+	}
+
+	// Procesar cada endpoint
+	for placeholder, config := range endpoints {
+		fmt.Printf("📝 Generando descripción para %s...\n", placeholder)
+		desc := generateDescription(config.requestFile, config.responseFile, config.description)
+		
+		if err := replaceInFile(handlerFile, placeholder, desc); err != nil {
+			fmt.Printf("❌ Error procesando %s: %v\n", placeholder, err)
+		}
+	}
+
+	fmt.Println("\n✅ ¡Todas las descripciones han sido actualizadas!")
+	fmt.Println("📋 Próximos pasos:")
+	fmt.Println("   1. swag init -g cmd/main.go -o ./docs --parseDependency --parseInternal")
+	fmt.Println("   2. go run cmd/main.go")
 }
-
-# Generar descripciones para cada endpoint
-Write-Host "📝 Generando descripción para CCF..." -ForegroundColor Cyan
-$ccfDesc = Generate-Description "jsonExamples\ccf_request.json" "jsonExamples\ccf_response.json" "Este endpoint permite crear y emitir un Comprobante de Crédito Fiscal (CCF) electrónico."
-
-Write-Host "📝 Generando descripción para Invoice..." -ForegroundColor Cyan
-$invoiceDesc = Generate-Description "jsonExamples\invoice_request.json" "jsonExamples\invoice_response.json" "Este endpoint permite crear y emitir una Factura Electrónica."
-
-Write-Host "📝 Generando descripción para Credit Note..." -ForegroundColor Cyan
-$creditnoteDesc = Generate-Description "jsonExamples\creditnote_request.json" "jsonExamples\creditnote_response.json" "Este endpoint permite crear y emitir una Nota de Crédito electrónica."
-
-Write-Host "📝 Generando descripción para Retention..." -ForegroundColor Cyan
-$retentionDesc = Generate-Description "jsonExamples\retention_request.json" "jsonExamples\retention_response.json" "Este endpoint permite crear y emitir un Comprobante de Retención electrónico."
-
-# Reemplazar todas las descripciones
-Replace-InFile $HandlerFile "CCF_DESCRIPTION" $ccfDesc
-Replace-InFile $HandlerFile "INVOICE_DESCRIPTION" $invoiceDesc
-Replace-InFile $HandlerFile "CREDITNOTE_DESCRIPTION" $creditnoteDesc
-Replace-InFile $HandlerFile "RETENTION_DESCRIPTION" $retentionDesc
-
-Write-Host "`n✅ ¡Todas las descripciones han sido actualizadas automáticamente!" -ForegroundColor Green
-Write-Host "📋 Próximos pasos:" -ForegroundColor Yellow
-Write-Host "   1. swag init -g cmd/main.go -o ./docs --parseDependency --parseInternal" -ForegroundColor White
-Write-Host "   2. go run cmd/main.go" -ForegroundColor White

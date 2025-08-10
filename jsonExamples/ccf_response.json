@@ -1,0 +1,127 @@
+{
+  "success": true,
+  "reception_stamp": "202533D8A3CB39484D...",
+  "qr_link": "https://admin.factura.gob.sv/consultaPublica?ambiente=00&codGen=UUID-GENERADO&fechaEmi=FECHA-EMISION",
+  "data": {
+    "identificacion": {
+      "version": 3,
+      "ambiente": "00",
+      "tipoDte": "03",
+      "numeroControl": "DTE-03-C0020000-000000000000001",
+      "codigoGeneracion": "96B3D5DD-EE92-4...",
+      "tipoModelo": 1,
+      "tipoOperacion": 1,
+      "tipoContingencia": null,
+      "motivoContin": null,
+      "fecEmi": "2025-04-12",
+      "horEmi": "19:38:32",
+      "tipoMoneda": "USD"
+    },
+    "emisor": {
+      "nit": "00000000000000",
+      "nrc": "0000000",
+      "nombre": "EMPRESA DE PRUEBAS SA DE CV 2",
+      "codActividad": "00000",
+      "descActividad": "Venta al por mayor de otros productos",
+      "tipoEstablecimiento": "01",
+      "direccion": {
+        "departamento": "06",
+        "municipio": "20",
+        "complemento": "BOULEVARD SANTA ELENA SUR, SANTA TECLA"
+      },
+      "telefono": "21212121",
+      "correo": "facturacion@empresa.com.sv",
+      "nombreComercial": "EJEMPLO",
+      "codEstableMH": null,
+      "codEstable": "C002",
+      "codPuntoVentaMH": null,
+      "codPuntoVenta": null
+    },
+    "receptor": {
+      "nombre": "CLIENTE DE PRUEBA",
+      "nrc": "0000",
+      "nit": "00000000000000",
+      "codActividad": "00000",
+      "descActividad": "ACTIVIDAD ECONOMICA DE EJEMPLO",
+      "direccion": {
+        "departamento": "06",
+        "municipio": "22",
+        "complemento": "Dirección de Prueba 1, N° 1234"
+      },
+      "telefono": "21212828",
+      "correo": "cliente@gmail.com",
+      "nombreComercial": "EJEMPLO S.A de S.V"
+    },
+    "cuerpoDocumento": [
+      {
+        "numItem": 1,
+        "tipoItem": 1,
+        "numeroDocumento": null,
+        "codigo": null,
+        "codTributo": null,
+        "descripcion": "Venta gravada",
+        "cantidad": 1,
+        "uniMedida": 59,
+        "precioUni": 2000,
+        "montoDescu": 0,
+        "ventaNoSuj": 0,
+        "ventaExenta": 0,
+        "ventaGravada": 2000,
+        "tributos": [
+          "20"
+        ],
+        "psv": 0,
+        "noGravado": 0
+      }
+    ],
+    "resumen": {
+      "totalNoSuj": 0,
+      "totalExenta": 0,
+      "totalGravada": 2000,
+      "subTotalVentas": 2000,
+      "descuNoSuj": 0,
+      "descuExenta": 0,
+      "descuGravada": 0,
+      "porcentajeDescuento": 0,
+      "totalDescu": 0,
+      "tributos": [
+        {
+          "codigo": "20",
+          "descripcion": "IVA 13%",
+          "valor": 260
+        }
+      ],
+      "subTotal": 2000,
+      "ivaRete1": 0,
+      "ivaPerci1": 0,
+      "reteRenta": 0,
+      "montoTotalOperacion": 2260,
+      "totalNoGravado": 0,
+      "totalPagar": 2260,
+      "totalLetras": "DOS MIL DOSCIENTOS SESENTA 00/100",
+      "saldoFavor": 0,
+      "condicionOperacion": 1,
+      "pagos": [
+        {
+          "codigo": "01",
+          "montoPago": 2260,
+          "referencia": null,
+          "plazo": null,
+          "periodo": null
+        }
+      ],
+      "numPagoElectronico": null
+    },
+    "documentoRelacionado": null,
+    "otrosDocumentos": null,
+    "ventaTercero": null,
+    "extension": null,
+    "apendice": [
+      {
+        "campo": "Datos del documento",
+        "etiqueta": "Sello de recepción",
+        "valor": "202533D8A3CB39484D..."
+      }
+    ]
+  }
+}

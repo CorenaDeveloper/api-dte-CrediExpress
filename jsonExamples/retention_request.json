@@ -1,0 +1,35 @@
+{
+    "items": [
+        {
+            "type": 2,
+            "document_number": "1EEAB582-AA75-4D9C-A...",
+            "description": "Compra de equipos informáticos",
+            "retention_code": "22"
+        }
+    ],
+    "receiver": {
+    "document_type": "36",
+    "document_number": "00000000000000",
+    "nrc": "000000",
+    "name": "EJEMPLO S.A de S.V",
+    "commercial_name": "EJEMPLO",
+    "activity_code": "00000",
+    "activity_description": "ACTIVIDADES JURÍDICAS Y CONTABLES",
+    "address": {
+      "department": "06",
+      "municipality": "20",
+      "complement": "Dirección de Prueba 1, N° 1234"
+    },
+    "phone": "21212121",
+    "email": "cliente@gmail.com"
+  },
+   "extension": {
+        "delivery_name": "Juan Pérez",
+        "delivery_document": "06141809931020",
+        "receiver_name": "María López",
+        "receiver_document": "06142509882011",
+        "observation": "Entrega en oficina central"
+    },
+
+    "appendixes": null
+}

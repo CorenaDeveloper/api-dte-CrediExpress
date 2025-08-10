@@ -1,0 +1,139 @@
+{
+    "success": true,
+  "reception_stamp": "202533D8A3CB39484D...",
+  "qr_link": "https://admin.factura.gob.sv/consultaPublica?ambiente=00&codGen=UUID-GENERADO&fechaEmi=FECHA-EMISION",
+    "data": {
+        "identificacion": {
+            "version": 1,
+            "ambiente": "00",
+            "tipoDte": "01",
+            "numeroControl": "DTE-01-00000000-000000000000001",
+            "codigoGeneracion": "29378712-E876-4...",
+            "tipoModelo": 1,
+            "tipoOperacion": 1,
+            "tipoContingencia": null,
+            "motivoContin": null,
+            "fecEmi": "2025-04-16",
+            "horEmi": "15:00:48",
+            "tipoMoneda": "USD"
+        },
+        "resumen": {
+            "totalNoSuj": 0,
+            "totalExenta": 0,
+            "totalGravada": 100.05,
+            "subTotalVentas": 100.05,
+            "descuNoSuj": 0,
+            "descuExenta": 0,
+            "descuGravada": 0,
+            "porcentajeDescuento": 0,
+            "totalDescu": 0,
+            "tributos": [],
+            "subTotal": 100.05,
+            "reteRenta": 0,
+            "ivaRete1": 1,
+            "montoTotalOperacion": 100.05,
+            "totalNoGravado": 0,
+            "totalPagar": 99.05,
+            "totalLetras": "NOVENTA Y NUEVE 05/100",
+            "totalIva": 11.51,
+            "saldoFavor": 0,
+            "condicionOperacion": 1,
+            "pagos": [
+                {
+                    "codigo": "01",
+                    "montoPago": 99.05,
+                    "referencia": null,
+                    "plazo": null,
+                    "periodo": null
+                }
+            ],
+            "numPagoElectronico": null
+        },
+        "emisor": {
+            "nit": "00000000000000",
+            "nrc": "0000000",
+            "nombre": "EMPRESA DE PRUEBAS SA DE CV 2",
+            "codActividad": "00000",
+            "descActividad": "Venta al por mayor de otros productos",
+            "tipoEstablecimiento": "01",
+            "direccion": {
+                "departamento": "06",
+                "municipio": "20",
+                "complemento": "BOULEVARD SANTA ELENA SUR, SANTA TECLA"
+            },
+            "telefono": "21212828",
+            "correo": "facturacion@empresa.com.sv",
+            "nombreComercial": "EJEMPLO",
+            "codEstableMH": null,
+            "codEstable": null,
+            "codPuntoVentaMH": null,
+            "codPuntoVenta": null
+        },
+        "receptor": {
+            "nombre": "CLIENTE DE PRUEBA",
+            "tipoDocumento": "13",
+            "numDocumento": "00000000-0",
+            "nrc": null,
+            "codActividad": null,
+            "descActividad": null,
+            "direccion": {
+                "departamento": "08",
+                "municipio": "23",
+                "complemento": "SOYAPANGO, SAN SALVADOR"
+            },
+            "telefono": "21212121",
+            "correo": "cliente@gmail.com"
+        },
+        "cuerpoDocumento": [
+            {
+                "numItem": 1,
+                "tipoItem": 1,
+                "numeroDocumento": null,
+                "codigo": null,
+                "codTributo": null,
+                "descripcion": "CODO PVC 3/4",
+                "cantidad": 12,
+                "uniMedida": 59,
+                "precioUni": 0.65,
+                "montoDescu": 0,
+                "ventaNoSuj": 0,
+                "ventaExenta": 0,
+                "ventaGravada": 7.8,
+                "tributos": null,
+                "psv": 0,
+                "noGravado": 0,
+                "ivaItem": 0.9
+            },
+            {
+                "numItem": 2,
+                "tipoItem": 1,
+                "numeroDocumento": null,
+                "codigo": null,
+                "codTributo": null,
+                "descripcion": "CODO PVC 1",
+                "cantidad": 123,
+                "uniMedida": 59,
+                "precioUni": 0.75,
+                "montoDescu": 0,
+                "ventaNoSuj": 0,
+                "ventaExenta": 0,
+                "ventaGravada": 92.25,
+                "tributos": null,
+                "psv": 0,
+                "noGravado": 0,
+                "ivaItem": 10.61
+            }
+        ],
+        "documentoRelacionado": null,
+        "otrosDocumentos": null,
+        "ventaTercero": null,
+        "extension": null,
+        "apendice": [
+            {
+                "campo": "Datos del documento",
+                "etiqueta": "Sello de recepción",
+                "valor": "202533D8A3CB39484D..."
+            }
+        ]
+    }
+}

@@ -1,0 +1,67 @@
+{
+    "items": [
+        {
+            "type": 1,
+            "description": "Venta gravada",
+            "quantity": 1,
+            "unit_measure": 59,
+            "unit_price": 1000.00,
+            "taxed_sale": 1000.00,
+            "exempt_sale": 0,
+            "non_subject_sale": 0,
+            "taxes": [
+                "20"
+            ],
+            "related_doc" : "DE4BD411-DEBF-4EB8-B..."
+        }
+    ],
+    "receiver": {
+        "nrc": "0000",
+        "nit": "00000000000000",
+        "name": "CLIENTE DE PRUEBA",
+        "commercial_name": "EJEMPLO S.A de S.V",
+        "activity_code": "47190",
+        "activity_description": "ACTIVIDADES JURÍDICAS Y CONTABLES",
+        "address": {
+            "department": "06",
+            "municipality": "22",
+            "complement": "Dirección de Prueba 1, N° 1234"
+        },
+        "phone": "21212828",
+        "email": "cliente@gmail.com"
+    },
+    "summary": {
+        "operation_condition": 1,
+        "total_taxed": 1000.00,
+        "iva_retention": 10,
+        "sub_total_sales": 1000.00,
+        "sub_total": 1000.00,
+        "total_operation": 1120.00,
+        "taxes": [
+            {
+                "code": "20",
+                "description": "IVA 13%",
+                "value": 130.00
+            }
+        ]
+    },
+    "extension": {
+        "delivery_name": "Juan Pérez",
+        "delivery_document": "06141809931020",
+        "receiver_name": "María López",
+        "receiver_document": "06142509882011",
+        "observation": "Entrega en oficina central"
+    },
+    "related_docs": [
+        {
+            "document_type": "03",
+            "generation_type": 2,
+            "document_number": "DE4BD411-DEBF-4..."
+        }
+    ],
+    "appendixes": null,
+    "third_party_sale": null,
+    "other_docs": null
+
+}
+           
