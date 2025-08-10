@@ -201,6 +201,340 @@ paths:
       summary: Login
       tags:
       - Auth
+  /dte:
+    get:
+      consumes:
+      - application/json
+      description: Obtiene lista paginada de DTEs del usuario autenticado
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - default: 1
+        description: Número de página
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: Elementos por página
+        in: query
+        name: limit
+        type: integer
+      - description: Filtrar por estado
+        enum:
+        - PROCESSED
+        - PENDING
+        - ERROR
+        in: query
+        name: status
+        type: string
+      - description: Filtrar por tipo DTE
+        enum:
+        - "01"
+        - "03"
+        - "05"
+        - "06"
+        - "11"
+        - "14"
+        in: query
+        name: dte_type
+        type: string
+      - description: Fecha inicio (YYYY-MM-DD)
+        in: query
+        name: date_from
+        type: string
+      - description: Fecha fin (YYYY-MM-DD)
+        in: query
+        name: date_to
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_MarlonG1_api-facturacion-sv_internal_infrastructure_api_response.APIError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_MarlonG1_api-facturacion-sv_internal_infrastructure_api_response.APIError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_MarlonG1_api-facturacion-sv_internal_infrastructure_api_response.APIError'
+      security:
+      - BearerAuth: []
+      summary: Listar DTEs
+      tags:
+      - DTE
+  /dte/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Obtiene un DTE específico por su código de generación
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Código de generación del DTE
+        format: uuid
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_MarlonG1_api-facturacion-sv_internal_infrastructure_api_response.APIError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_MarlonG1_api-facturacion-sv_internal_infrastructure_api_response.APIError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_MarlonG1_api-facturacion-sv_internal_infrastructure_api_response.APIError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_MarlonG1_api-facturacion-sv_internal_infrastructure_api_response.APIError'
+      security:
+      - BearerAuth: []
+      summary: Obtener DTE por código de generación
+      tags:
+      - DTE
+  /dte/ccf:
+    post:
+      consumes:
+      - application/json
+      description: Crea un nuevo CCF electrónico DTE tipo 03
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Datos del CCF
+        in: body
+        name: ccf
+        required: true
+        schema:
+          additionalProperties: true
+          type: object
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_MarlonG1_api-facturacion-sv_internal_infrastructure_api_response.APIError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_MarlonG1_api-facturacion-sv_internal_infrastructure_api_response.APIError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_MarlonG1_api-facturacion-sv_internal_infrastructure_api_response.APIError'
+      security:
+      - BearerAuth: []
+      summary: Crear Comprobante de Crédito Fiscal
+      tags:
+      - DTE
+  /dte/creditnote:
+    post:
+      consumes:
+      - application/json
+      description: Crea una nueva Nota de Crédito electrónica DTE tipo 05
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Datos de la nota de crédito
+        in: body
+        name: creditnote
+        required: true
+        schema:
+          additionalProperties: true
+          type: object
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_MarlonG1_api-facturacion-sv_internal_infrastructure_api_response.APIError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_MarlonG1_api-facturacion-sv_internal_infrastructure_api_response.APIError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_MarlonG1_api-facturacion-sv_internal_infrastructure_api_response.APIError'
+      security:
+      - BearerAuth: []
+      summary: Crear Nota de Crédito
+      tags:
+      - DTE
+  /dte/invalidation:
+    post:
+      consumes:
+      - application/json
+      description: Invalida un DTE existente
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Datos para invalidación
+        in: body
+        name: invalidation
+        required: true
+        schema:
+          additionalProperties: true
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_MarlonG1_api-facturacion-sv_internal_infrastructure_api_response.APIError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_MarlonG1_api-facturacion-sv_internal_infrastructure_api_response.APIError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_MarlonG1_api-facturacion-sv_internal_infrastructure_api_response.APIError'
+      security:
+      - BearerAuth: []
+      summary: Invalidar DTE
+      tags:
+      - DTE
+  /dte/invoices:
+    post:
+      consumes:
+      - application/json
+      description: Crea una nueva factura electrónica DTE tipo 01
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Datos de la factura
+        in: body
+        name: invoice
+        required: true
+        schema:
+          additionalProperties: true
+          type: object
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_MarlonG1_api-facturacion-sv_internal_infrastructure_api_response.APIError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_MarlonG1_api-facturacion-sv_internal_infrastructure_api_response.APIError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_MarlonG1_api-facturacion-sv_internal_infrastructure_api_response.APIError'
+      security:
+      - BearerAuth: []
+      summary: Crear factura electrónica
+      tags:
+      - DTE
+  /dte/retention:
+    post:
+      consumes:
+      - application/json
+      description: Crea un nuevo Comprobante de Retención electrónico DTE tipo 06
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Datos del comprobante de retención
+        in: body
+        name: retention
+        required: true
+        schema:
+          additionalProperties: true
+          type: object
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_MarlonG1_api-facturacion-sv_internal_infrastructure_api_response.APIError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_MarlonG1_api-facturacion-sv_internal_infrastructure_api_response.APIError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_MarlonG1_api-facturacion-sv_internal_infrastructure_api_response.APIError'
+      security:
+      - BearerAuth: []
+      summary: Crear Comprobante de Retención
+      tags:
+      - DTE
   /health:
     get:
       consumes:
