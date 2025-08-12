@@ -108,7 +108,7 @@ definitions:
       message:
         type: string
     type: object
-  pagos.Cliente:
+  internal_infrastructure_api_controllers_credi_express.Cliente:
     properties:
       activo:
         type: integer
@@ -235,7 +235,7 @@ paths:
         "200":
           description: Cliente encontrado
           schema:
-            $ref: '#/definitions/pagos.Cliente'
+            $ref: '#/definitions/internal_infrastructure_api_controllers_credi_express.Cliente'
         "404":
           description: Cliente no encontrado
           schema:
@@ -298,7 +298,7 @@ paths:
         "200":
           description: Cliente encontrado
           schema:
-            $ref: '#/definitions/pagos.Cliente'
+            $ref: '#/definitions/internal_infrastructure_api_controllers_credi_express.Cliente'
         "404":
           description: Cliente no encontrado
           schema:

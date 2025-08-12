@@ -144,7 +144,7 @@ const docTemplate = `{
                     "200": {
                         "description": "Cliente encontrado",
                         "schema": {
-                            "$ref": "#/definitions/pagos.Cliente"
+                            "$ref": "#/definitions/internal_infrastructure_api_controllers_credi_express.Cliente"
                         }
                     },
                     "404": {
@@ -251,7 +251,7 @@ const docTemplate = `{
                     "200": {
                         "description": "Cliente encontrado",
                         "schema": {
-                            "$ref": "#/definitions/pagos.Cliente"
+                            "$ref": "#/definitions/internal_infrastructure_api_controllers_credi_express.Cliente"
                         }
                     },
                     "404": {
@@ -1184,7 +1184,7 @@ const docTemplate = `{
                 }
             }
         },
-        "pagos.Cliente": {
+        "internal_infrastructure_api_controllers_credi_express.Cliente": {
             "type": "object",
             "properties": {
                 "activo": {

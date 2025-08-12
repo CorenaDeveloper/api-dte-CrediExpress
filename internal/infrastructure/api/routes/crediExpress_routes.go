@@ -1,14 +1,13 @@
-																
 package routes
 
 import (
 	"github.com/gorilla/mux"
-	"github.com/MarlonG1/api-facturacion-sv/internal/infrastructure/api/controllers/credi_express/cliente_controller"
+	pagos "github.com/MarlonG1/api-facturacion-sv/internal/infrastructure/api/controllers/credi_express"
 )
 
 // SetupPagosRoutes configura las rutas para el módulo de pagos
 func SetupPagosRoutes(router *mux.Router) {
-	// Crear controlador de clientes
+	// Crear controlador de clientes - usar 'pagos' porque ese es el nombre del paquete en cliente_controller.go
 	clienteController := pagos.NewClienteController()
 
 	// Subrutador para el módulo de pagos
@@ -32,4 +31,3 @@ func SetupPagosRoutes(router *mux.Router) {
 	// GET /api/pagos/clientes/{id} - Obtener cliente por ID (debe ir al final)
 	clientesRouter.HandleFunc("/{id:[0-9]+}", clienteController.GetClienteByID).Methods("GET")
 }
-
