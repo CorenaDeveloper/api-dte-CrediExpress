@@ -77,6 +77,9 @@ func (s *Server) configurePublicRoutes(public *mux.Router) {
 	routes.RegisterPublicAuthRoutes(public, s.container.Handlers().AuthHandler())
 	routes.RegisterHealthRoutes(public, s.container.Handlers().HealthHandler())
 	routes.RegisterTestRoutes(public, s.container.Handlers().TestHandler())
+
+	//sa s.router directamente porque las rutas ya tienen el prefijo /api/pagos
+	routes.SetupPagosRoutes(s.router)
 }
 
 func (s *Server) configureGlobalMiddlewares() {

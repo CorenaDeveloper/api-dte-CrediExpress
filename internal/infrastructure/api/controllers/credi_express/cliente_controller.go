@@ -66,6 +66,12 @@ func getEnvOrDefault(key, defaultValue string) string {
 
 // NewClienteController crea una nueva instancia del controlador
 func NewClienteController() *ClienteController {
+
+    fmt.Printf("DEBUG - PAGOS_DB_HOST: '%s'\n", os.Getenv("PAGOS_DB_HOST"))
+	fmt.Printf("DEBUG - PAGOS_DB_PORT: '%s'\n", os.Getenv("PAGOS_DB_PORT"))
+	fmt.Printf("DEBUG - PAGOS_DB_USERNAME: '%s'\n", os.Getenv("PAGOS_DB_USERNAME"))
+	fmt.Printf("DEBUG - PAGOS_DB_PASSWORD: '%s'\n", os.Getenv("PAGOS_DB_PASSWORD"))
+	fmt.Printf("DEBUG - PAGOS_DB_DATABASE: '%s'\n", os.Getenv("PAGOS_DB_DATABASE"))
 	// Obtener configuración desde variables de entorno (SIN valores por defecto sensibles)
 	host := os.Getenv("PAGOS_DB_HOST")
 	port := os.Getenv("PAGOS_DB_PORT")

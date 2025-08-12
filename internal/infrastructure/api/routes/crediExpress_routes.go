@@ -7,7 +7,7 @@ import (
 
 // SetupPagosRoutes configura las rutas para el módulo de pagos
 func SetupPagosRoutes(router *mux.Router) {
-	// Crear controlador de clientes - usar 'pagos' porque ese es el nombre del paquete en cliente_controller.go
+	// Crear controlador de clientes - NO pasar parámetros
 	clienteController := pagos.NewClienteController()
 
 	// Subrutador para el módulo de pagos
