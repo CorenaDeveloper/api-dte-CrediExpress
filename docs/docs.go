@@ -73,7 +73,7 @@ const docTemplate = `{
         },
         "/api/pagos/clientes/activos": {
             "get": {
-                "description": "Obtiene una lista paginada de clientes activos",
+                "description": "Obtiene una lista paginada de clientes con estado activo",
                 "consumes": [
                     "application/json"
                 ],

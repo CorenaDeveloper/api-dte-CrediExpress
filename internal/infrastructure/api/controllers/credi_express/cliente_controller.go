@@ -1,10 +1,10 @@
-
 package pagos
 
 import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"os"
 	"strconv"
 	"time"
 
@@ -48,7 +48,7 @@ type Cliente struct {
 }
 
 func (Cliente) TableName() string {
-	return "clientes"
+	return "cliente"
 }
 
 // ClienteController maneja las operaciones de clientes
@@ -56,13 +56,37 @@ type ClienteController struct {
 	db *gorm.DB
 }
 
+// getEnvOrDefault obtiene una variable de entorno o devuelve un valor por defecto
+func getEnvOrDefault(key, defaultValue string) string {
+	if value := os.Getenv(key); value != "" {
+		return value
+	}
+	return defaultValue
+}
+
 // NewClienteController crea una nueva instancia del controlador
 func NewClienteController() *ClienteController {
-	// Configuración de conexión directa a la DB de pagos
-	dsn := "UserCredi:Hola2549762015@@tcp(86.48.25.90:3306)/pagos?charset=utf8mb4&parseTime=True&loc=Local&tls=required"
+	// Obtener configuración desde variables de entorno (SIN valores por defecto sensibles)
+	host := os.Getenv("PAGOS_DB_HOST")
+	port := os.Getenv("PAGOS_DB_PORT")
+	username := os.Getenv("PAGOS_DB_USERNAME")
+	password := os.Getenv("PAGOS_DB_PASSWORD")
+	database := os.Getenv("PAGOS_DB_DATABASE")
+	charset := getEnvOrDefault("PAGOS_DB_CHARSET", "utf8mb4")
+	
+	// Validar que las variables requeridas existan
+	if host == "" || port == "" || username == "" || password == "" || database == "" {
+		panic("Missing required database environment variables: PAGOS_DB_HOST, PAGOS_DB_PORT, PAGOS_DB_USERNAME, PAGOS_DB_PASSWORD, PAGOS_DB_DATABASE")
+	}
+	
+	// Construir DSN desde variables de entorno
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=%s&parseTime=True&loc=Local&tls=required",
+		username, password, host, port, database, charset)
+	
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
-		panic("Failed to connect to pagos database: " + err.Error())
+		// Log del error sin exponer credenciales
+		panic(fmt.Sprintf("Failed to connect to pagos database at %s:%s - %v", host, port, err))
 	}
 
 	return &ClienteController{db: db}
@@ -218,13 +242,13 @@ func (c *ClienteController) SearchClientes(w http.ResponseWriter, r *http.Reques
 	var total int64
 
 	searchTerm := fmt.Sprintf("%%%s%%", query)
-	whereClause := c.db.Where("NOMBRE LIKE ? OR APELLIDO LIKE ? OR DUI LIKE ? OR CONCAT(NOMBRE, ' ', APELLIDO) LIKE ?", 
+	whereClause := c.db.Where("NOMBRE LIKE ? OR APELLIDO LIKE ? OR DUI LIKE ? OR CONCAT(NOMBRE, ' ', APELLIDO) LIKE ?",
 		searchTerm, searchTerm, searchTerm, searchTerm)
-
-	// Contar total
+	
+	// Contar total de resultados
 	whereClause.Model(&Cliente{}).Count(&total)
-
-	// Obtener resultados con paginación
+	
+	// Obtener clientes con paginación
 	offset := (page - 1) * limit
 	result := whereClause.Offset(offset).Limit(limit).Order("ID DESC").Find(&clientes)
 
@@ -239,7 +263,7 @@ func (c *ClienteController) SearchClientes(w http.ResponseWriter, r *http.Reques
 		"page":        page,
 		"limit":       limit,
 		"total_pages": (total + int64(limit) - 1) / int64(limit),
-		"query":       query,
+		"search_term": query,
 	}
 
 	w.Header().Set("Content-Type", "application/json")
@@ -248,7 +272,7 @@ func (c *ClienteController) SearchClientes(w http.ResponseWriter, r *http.Reques
 
 // GetActiveClientes obtiene solo los clientes activos
 // @Summary Obtener clientes activos
-// @Description Obtiene una lista paginada de clientes activos
+// @Description Obtiene una lista paginada de clientes con estado activo
 // @Tags Clientes
 // @Accept json
 // @Produce json
@@ -271,7 +295,7 @@ func (c *ClienteController) GetActiveClientes(w http.ResponseWriter, r *http.Req
 	var clientes []Cliente
 	var total int64
 
-	// Contar total de activos
+	// Contar total de clientes activos
 	c.db.Model(&Cliente{}).Where("ACTIVO = ?", 1).Count(&total)
 
 	// Obtener clientes activos con paginación
@@ -289,6 +313,7 @@ func (c *ClienteController) GetActiveClientes(w http.ResponseWriter, r *http.Req
 		"page":        page,
 		"limit":       limit,
 		"total_pages": (total + int64(limit) - 1) / int64(limit),
+		"filter":      "active_only",
 	}
 
 	w.Header().Set("Content-Type", "application/json")
